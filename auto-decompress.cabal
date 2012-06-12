@@ -8,15 +8,19 @@ license-file:        COPYING
 author:              David Powell
 maintainer:          David Powell <david@drp.id.au>
 
+cabal-version:       >= 1.2
 build-type:          Simple
-ghc-options:         -threaded
-build-depends:       base,
-                     bytestring,
-                     unix,
-                     process,
-                     splice
 
-exposed-modules:     Data.AutoDecompress, Data.AutoDecompress.Transform
 
-executable:          t
-main-is:             t.hs
+executable        t
+  main-is:             t.hs
+  ghc-options:         -threaded -W -O2
+
+Library
+  exposed-modules:     Data.AutoDecompress, Data.AutoDecompress.Transform
+  ghc-options:         -threaded -W -O2
+  build-depends:       base,
+                       bytestring,
+                       unix,
+                       process,
+                       splice
