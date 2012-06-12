@@ -1,0 +1,22 @@
+name:                auto-decompress
+version:             0.1
+synopsis:            Automatically decompress files
+description:         Use the "magic number" to determine the compression type,
+                     and decompress using a pipe automatically
+license:             GPL
+license-file:        COPYING
+author:              David Powell
+maintainer:          David Powell <david@drp.id.au>
+
+build-type:          Simple
+ghc-options:         -threaded
+build-depends:       base,
+                     bytestring,
+                     unix,
+                     process,
+                     splice
+
+exposed-modules:     Data.AutoDecompress, Data.AutoDecompress.Transform
+
+executable:          t
+main-is:             t.hs
