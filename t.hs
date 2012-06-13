@@ -12,15 +12,25 @@ main = do
   case args of
     ("-t":files) -> mapM_ (fileLength True) files
     ("-l":files) -> lotsOfFiles (head files)
+    ("-i":files) -> mapM_ fileLengthH files
     files -> mapM_ (fileLength False) files
 
 fileLength :: Bool -> FilePath -> IO ()
 fileLength transform file = do
-  h <- if transform
-         then decompressFile file
-         else openFile file ReadMode
-  str <- B.hGetContents h
-  print $ B.length str
+  putStr $ file ++ " : "
+  (if transform
+   then withDecompressFile file
+   else withFile file ReadMode) $ \h -> do
+     str <- B.hGetContents h
+     print $ B.length str
+
+fileLengthH :: FilePath -> IO ()
+fileLengthH file = do
+  putStr $ file ++ " : "
+  withFile file ReadMode $ \h ->
+      withDecompressHandle h $ \h2 -> do
+          str <- B.hGetContents h2
+          print $ B.length str
 
 
 lotsOfFiles :: FilePath -> IO ()

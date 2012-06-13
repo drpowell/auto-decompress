@@ -5,10 +5,12 @@ Haskell library to automatically decompress a file when opening.
 
 Example, to print the uncompressed length of the file "test.gz":
 
+    import System.IO
     import Data.AutoDecompress
-    str <- decompressFile "test.gz" >>= B.hGetContents h
-    print $ B.length str
 
+    main = withDecompressFile "test.gz" $ \h -> do
+              str <- hGetContents h
+              print $ length str
 
 How it works
 ============

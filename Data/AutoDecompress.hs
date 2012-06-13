@@ -1,11 +1,11 @@
 module Data.AutoDecompress
     ( decompressDefs
-    , withDecompressFile, decompressFile --, decompressHandle
+    , withDecompressFile, decompressFile, withDecompressHandle
     ) where
 
 import Data.AutoDecompress.Transform
 import qualified Data.ByteString as B
-import System.IO (Handle, openFile, withFile, hClose, IOMode(..))
+import System.IO (Handle)
 
 decompressDefs =
     [ TransformDef { name = "gzip"
@@ -35,5 +35,5 @@ withDecompressFile file action = withTransformFile decompressDefs file action
 decompressFile :: FilePath -> IO Handle
 decompressFile file = transformFile decompressDefs file
 
--- decompressHandle :: Handle -> IO Handle
--- decompressHandle hndl = transformHandle decompressDefs hndl
+withDecompressHandle :: Handle -> (Handle -> IO r) -> IO r
+withDecompressHandle hndl action = withTransformHandle decompressDefs hndl action
